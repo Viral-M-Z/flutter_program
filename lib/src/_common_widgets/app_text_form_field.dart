@@ -52,8 +52,6 @@ class _MyTextFieldState extends State<MyTextField> {
         keyboardType: widget.keyboardType ?? TextInputType.text,
         inputFormatters: widget.inputFormatters ?? [],
 
-
-
         onTapOutside: (event) {
           // print("event: #$event");
           FocusManager.instance.primaryFocus?.unfocus();

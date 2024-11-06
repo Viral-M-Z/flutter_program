@@ -1,8 +1,11 @@
 
+import 'dart:developer';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_program/common_utils/field_validator.dart';
+import 'package:flutter_program/src/_common_widgets/app_drop_down_btn_2.dart';
 import 'package:flutter_program/src/_common_widgets/app_elevated_btn.dart';
 import 'package:flutter_program/src/_common_widgets/app_text_form_field.dart';
 import 'package:flutter_program/src/screens/login/login_screen.dart';
@@ -103,60 +106,71 @@ class SignUpScreen extends StatelessWidget {
                           return FieldValidator.confirmPassword(val, _signUpController.password.text);
                         },
                       ),
-                      const SizedBox(height: 12,),
 
-                      Row(
+                      SizedBox(height: 20.sp,),
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         mainAxisSize: MainAxisSize.max,
                         children: [
 
                           const Text('Select Profession'),
 
-                          SizedBox(
-                            width: Get.width * .4,
-                            child: DropdownButtonFormField2(
-                              // isExpanded: true,
+                          SizedBox(height: 8.sp,),
 
-                              // selectedItemBuilder: ,
+                          AppDropdownBtnField(
 
-                              hint: Text(
-                                'Select Item',
-                                style: TextStyle(
+                            onChange: (String? value) {
+                              log('value == $value');
+                              _signUpController.profession.value = value ?? "";
+                            },
+
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(vertical: 16,horizontal: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+
+                            value: _signUpController.profession.value.isEmpty ? null : _signUpController.profession.value,
+
+                            items: ["Painter","Designer","Teacher","Plumber"].map((String item) => DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
                                   fontSize: 14,
-                                  color: Theme.of(context).hintColor,
                                 ),
                               ),
+                            )).toList(),
 
-                              validator: (val) {
-                                if(val?.isEmpty ?? false) {
-                                  return "Empty";
-                                }
-                                return null;
-                              },
-
-                              items: ["Painter","Designer","Teacher","Plumber"].map((String item) => DropdownMenuItem(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              )).toList(),
-                              value: _signUpController.profession.value.isEmpty ? null : _signUpController.profession.value,
-                              onChanged: (String? value) {
-                                _signUpController.profession.value = value ?? "";
-                              },
-                              buttonStyleData: const ButtonStyleData(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                height: 40,
-                                width: 140,
+                            hint: Text(
+                              'Select Item',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).hintColor,
                               ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
+                            ),
+
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: 24.h,
+                              // width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                // color: Colors.redAccent[100],
+                              ),
+
+                              // offset: const Offset(-20, 0),
+                              scrollbarTheme: ScrollbarThemeData(
+                                radius: const Radius.circular(40),
+                                thickness: MaterialStateProperty.all(6),
+                                thumbVisibility: MaterialStateProperty.all(true),
                               ),
                             ),
                           ),
+
+
                         ],
                       ),
                     ],
